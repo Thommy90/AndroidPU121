@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AndroidPU121</string>
+
+    <string name="main_tv_title">Знакомство с андроид</string>
+    <string name="main_btn_views">Элементы UI</string>
+
+    <string name="views_tv_title">Элементы UI (views)</string>
+    <string name="views_LinearLayout">LinearLayout:horizontal</string>
+</resources>

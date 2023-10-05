@@ -19,12 +19,23 @@ public class MainActivity extends AppCompatActivity {
         tvTitle = findViewById(R.id.main_tv_title);
         Button btnViews = findViewById(R.id.main_btn_views);
         btnViews.setOnClickListener( this::btnViewClick);
+
+        Button btnCalc = findViewById(R.id.main_btn_calc);
+        btnCalc.setOnClickListener( this::btnCalcClick);
     }
     // обробчики событий имеют одинаковые прототип
     private void btnViewClick (View view){   // view - sender
         Intent intent = new Intent(
                 this.getApplicationContext(),
                 ViewsActivity.class
+        );
+        startActivity( intent );
+    }
+
+    private void btnCalcClick (View view){   // view - sender
+        Intent intent = new Intent(
+                this.getApplicationContext(),
+                CalcActivity.class
         );
         startActivity( intent );
     }

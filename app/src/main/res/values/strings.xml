@@ -3,7 +3,34 @@
 
     <string name="main_tv_title">Знакомство с андроид</string>
     <string name="main_btn_views">Элементы UI</string>
+    <string name="main_btn_calc">Калькулятор</string>
 
     <string name="views_tv_title">Элементы UI (views)</string>
     <string name="views_LinearLayout">LinearLayout:horizontal</string>
+
+    <string name="calc_tv_title">Калькулятор</string>
+    <string name="calc_tv_percent">%</string>
+    <string name="calc_tv_ce">CE</string>
+    <string name="calc_tv_c">C</string>
+    <string name="calc_tv_backspace">\u232B</string>
+    <string name="calc_tv_inverse">\u00B9/\u2093</string>
+    <string name="calc_tv_square">x\u00B2</string>
+    <string name="calc_tv_sqrt">\u221A\u2093\u0304</string>
+    <string name="calc_tv_divide">\u00F7</string>
+    <string name="calc_tv_equel">=</string>
+    <string name="calc_tv_plus">+</string>
+    <string name="calc_tv_minus">-</string>
+    <string name="calc_tv_multiplication">x</string>
+    <string name="calc_tv_zero">0</string>
+    <string name="calc_tv_one">1</string>
+    <string name="calc_tv_two">2</string>
+    <string name="calc_tv_three">3</string>
+    <string name="calc_tv_four">4</string>
+    <string name="calc_tv_five">5</string>
+    <string name="calc_tv_six">6</string>
+    <string name="calc_tv_seven">7</string>
+    <string name="calc_tv_eight">8</string>
+    <string name="calc_tv_nine">9</string>
+    <string name="calc_tv_comma">,</string>
+    <string name="calc_tv_plus_minus">\u207A\u2215\u208B</string>
 </resources>

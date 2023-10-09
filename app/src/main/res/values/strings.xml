@@ -20,17 +20,19 @@
     <string name="calc_tv_equel">=</string>
     <string name="calc_tv_plus">+</string>
     <string name="calc_tv_minus">-</string>
-    <string name="calc_tv_multiplication">x</string>
-    <string name="calc_tv_zero">0</string>
-    <string name="calc_tv_one">1</string>
-    <string name="calc_tv_two">2</string>
-    <string name="calc_tv_three">3</string>
-    <string name="calc_tv_four">4</string>
-    <string name="calc_tv_five">5</string>
-    <string name="calc_tv_six">6</string>
-    <string name="calc_tv_seven">7</string>
-    <string name="calc_tv_eight">8</string>
-    <string name="calc_tv_nine">9</string>
+    <string name="calc_tv_multiplication">*</string>
+    <string name="calc_btn_0">\u2205</string>
+    <string name="calc_btn_1">1</string>
+    <string name="calc_btn_2">2</string>
+    <string name="calc_btn_3">3</string>
+    <string name="calc_btn_4">4</string>
+    <string name="calc_btn_5">5</string>
+    <string name="calc_btn_6">6</string>
+    <string name="calc_btn_7">7</string>
+    <string name="calc_btn_8">8</string>
+    <string name="calc_btn_9">9</string>
     <string name="calc_tv_comma">,</string>
     <string name="calc_tv_plus_minus">\u207A\u2215\u208B</string>
+    <string name="calc_div_zero_message">Cannot divide by zero</string>
+    <string name="calc_sqrt_underZero_message">Number cannot be under 0</string>
 </resources>

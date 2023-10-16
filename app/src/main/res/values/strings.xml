@@ -24,6 +24,10 @@
     <string name="game_btn_14">14</string>
     <string name="game_btn_15">15</string>
     <string name="game_btn_16">16</string>
+    <string name="game_toast_no_move">Немає руху</string>
+    <string name="game_tv_score">Счет\n%d</string>
+    <string name="game_tv_scoreMax">СчетМакс\n%d</string>
+    <string name="game_sound">Включить звук</string>
 
     <string name="views_tv_title">Элементы UI (views)</string>
     <string name="views_LinearLayout">LinearLayout:horizontal</string>

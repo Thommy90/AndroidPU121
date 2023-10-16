@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<alpha
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromAlpha="0"
+    android:toAlpha="1"
+    android:duration="300"
+    />
+<!-- Анимация прозрачности(альфа канала)
+Для задачи плавного появления новой клетки - анимаця от полной прозрачности (0)
+до непрозрачности (1) в протяжении часа duration (в милисекундах)
+-->

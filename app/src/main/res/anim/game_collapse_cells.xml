@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scale
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromXScale="1.0"
+    android:fromYScale="1.0"
+    android:toXScale="1.2"
+    android:toYScale="1.2"
+    android:duration="300"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:repeatMode="reverse"
+    android:repeatCount="1"
+    />
+
+<!--
+Анимация масштаба
+Для некоторых анимаций добавляется понятие pivot - недвижимой точки
+По молчанию - 0,0
+Увеличение идет от нее
+repeatMode - для повторения (restart начать заново), reverse(плавно возвращаться)
+Этот режим влияет на  значение repeatCount (restart - количество проигрывание анимация,
+reverse - колчество полупроигрывания)
+
+-->

@@ -7,6 +7,8 @@
     <color name="game_title_foreground">#FFFFFF</color>
     <color name="game_score_background">#3D3A33</color>
     <color name="game_score_foreground">#FFFFFF</color>
+    <color name="bnt_background">#FFF65E3E</color>
+    <color name="bnt_foreground">#FFFFFF</color>
     <color name="table_background">#A39280</color>
     <color name="game_bg_0">#BEAFA0</color>
     <color name="game_fg_0">#BEAFA0</color>
@@ -28,11 +30,21 @@
     <color name="game_bg_256">#F0CF4B</color>
     <color name="game_fg_512">#F8F6F3</color>
     <color name="game_bg_512">#E3BF2A</color>
-
+    <color name="save_game_background">#1168EC</color>
+    <color name="load_game_background">#F6DE07</color>
     <color name="calc_background">#202020</color>
     <color name="calc_expression_text">#9B9B9B</color>
     <color name="calc_result_text">#FEFEFE</color>
     <color name="calc_btn_func_background">#323232</color>
     <color name="calc_btn_digit_background">#3B3B3B</color>
     <color name="calc_btn_equal_background">#4CC1FE</color>
+
+    <color name="rate_btn_default">#2A2B2E</color>
+    <color name="rate_btn_fr_default">#FFFFFF</color>
+
+    <color name="rate_btn_1">#03A9F4</color>
+    <color name="rate_btn_2">#FFEB3B</color>
+
+    <color name="chat_card_message_name">#073108</color>
+    <color name="chat_card_message_date">#05379A</color>
 </resources>

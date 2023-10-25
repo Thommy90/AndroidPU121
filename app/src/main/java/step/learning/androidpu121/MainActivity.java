@@ -23,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
         Button btnCalc = findViewById(R.id.main_btn_calc);
         btnCalc.setOnClickListener( this::btnCalcClick);
 
+        Button btnRates = findViewById(R.id.main_btn_rates);
+        btnRates.setOnClickListener( this::btnRatesClick);
+
+        Button btnChat = findViewById(R.id.main_btn_chat);
+        btnChat.setOnClickListener( this::btnChatClick);
+
         findViewById( R.id.main_btn_2048 ).setOnClickListener( this::btnGameClick );
     }
     // обробчики событий имеют одинаковые прототип
@@ -30,6 +36,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(
                 this.getApplicationContext(),
                 ViewsActivity.class
+        );
+        startActivity( intent );
+    }
+
+    private void btnChatClick (View view){   // view - sender
+        Intent intent = new Intent(
+                this.getApplicationContext(),
+                ChatActivity.class
+        );
+        startActivity( intent );
+    }
+
+    private void btnRatesClick (View view){   // view - sender
+        Intent intent = new Intent(
+                this.getApplicationContext(),
+                RatesActivity.class
         );
         startActivity( intent );
     }

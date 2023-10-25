@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:id="@+id/main_container"
-        android:layout_width="304dp"
-        android:layout_height="334dp"
+        android:layout_width="310dp"
+        android:layout_height="469dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,6 +51,24 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/main_btn_2048"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/main_btn_rates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/main_btn_rates"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/main_btn_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/main_btn_chat"
             android:textSize="20sp"
             android:textStyle="bold" />
 

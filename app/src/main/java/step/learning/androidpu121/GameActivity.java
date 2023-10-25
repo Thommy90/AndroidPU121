@@ -1,11 +1,15 @@
 package step.learning.androidpu121;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
@@ -14,13 +18,22 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     private static final int N = 4;
     private final int[][] cells = new int[N][N];
+    private final int[][] prevCells = new int[N][N]; // undo action
     private final TextView[][] tvCells = new TextView[N][N];
     private final Random random = new Random() ;
     private  boolean collapse;
@@ -35,6 +48,7 @@ public class GameActivity extends AppCompatActivity {
     private int scoreMax= random.nextInt(2048);;
     private TextView tvScoreMax;
     private TextView tvScoreNow;
+    private static final String bestScoreFileName  = "Best_score";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -84,55 +98,104 @@ public class GameActivity extends AppCompatActivity {
                 new OnSwipeListener( GameActivity.this ) {
                     @Override
                     public void onSwipeBottom() {
-                        if(moveBottom())
-                        {
-                            spawnCell();
-                            showField();
-                        }
-                        else {
-                            Toast.makeText(GameActivity.this, getString( R.string.game_toast_no_move ), Toast.LENGTH_SHORT).show();
-                        }
+                        processMove( MoveDirection.BOTTOM );
                     }
                     @Override
                     public void onSwipeLeft() {
-                        if(moveLeft())
-                        {
-                            spawnCell();
-                            showField();
-                        }
-                        else {
-                            Toast.makeText(GameActivity.this, getString( R.string.game_toast_no_move ), Toast.LENGTH_SHORT).show();
-                        }
+                        processMove( MoveDirection.LEFT );
                     }
                     @Override
                     public void onSwipeRight() {
-                        if(moveRight())
-                        {
-                            spawnCell();
-                            showField();
-                        }
-                        else {
-                            Toast.makeText(GameActivity.this, getString( R.string.game_toast_no_move ), Toast.LENGTH_SHORT).show();
-                        }
+                        processMove( MoveDirection.RIGHT );
                     }
                     @Override
                     public void onSwipeTop() {
-                        if(moveTop())
-                        {
-                            spawnCell();
-                            showField();
-                        }
-                        else {
-                            Toast.makeText(GameActivity.this, getString( R.string.game_toast_no_move ), Toast.LENGTH_SHORT).show();
-                        }
+                        processMove( MoveDirection.TOP );
                     }
                 } );
+        loadBestScore();
+        startNewGame();
+    }
 
+    private void saveBestScore() {
+        /* Android має розподілену файлову систему. У застосунку є вільний
+        * * доступ до приватних файлів, які є частиною роботи та автоматично
+        * * видаляються разом з застосунком. Є спільні ресурси (картинки, завантаження
+        * * тощо) доступ до яких зазначається у маніфесті та має погоджуватись
+        * * дозволом користувача. Інші файли можуть виявитись недоступними.
+        * */
+        try (FileOutputStream outputStream =
+                     openFileOutput(bestScoreFileName, Context.MODE_PRIVATE);
+             DataOutputStream writer = new DataOutputStream(outputStream)) {
+            writer.writeInt(scoreMax);
+            writer.flush();
+            Log.d( "saveBestScore", "saveOK" );
+        } catch (IOException e) {
+            Log.e("saveBestScore", Objects.requireNonNull(e.getMessage()));
+        }
+    }
+
+    private void loadBestScore(){
+        try ( FileInputStream inputStream = openFileInput( bestScoreFileName);
+              DataInputStream reader = new DataInputStream(inputStream)
+        ){
+                scoreMax = reader.readInt();
+                Log.d( "loadBestScore", "Best score read: " + scoreMax );
+        } catch (IOException e) {
+            Log.e("loadBestScore", Objects.requireNonNull(e.getMessage()));
+        }
+    }
+    private void startNewGame(){
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                cells[i][j] = 0;
+            }
+        }
+        scoreNow = 0;
+        loadBestScore();
+        tvScoreMax.setText(getString(R.string.game_tv_scoreMax, scoreMax));
         spawnCell();
         spawnCell();
         showField();
     }
+    private void processMove (MoveDirection direction){
+        if(move (direction))
+        {
+            spawnCell();
+            showField();
+            if ( isGameFail())
+            {
+                showFailDialog();
+            }
+            else {
+                if (scoreNow > scoreMax ) {
+                    scoreMax = score;
+                    saveBestScore();
+                    tvScoreMax.setText(getString(R.string.game_tv_scoreMax, scoreMax));
+                }
+            }
+        }
+        else {
+            Toast.makeText(GameActivity.this, getString( R.string.game_toast_no_move ), Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    private void showFailDialog() {
+        new AlertDialog.Builder(this, androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
+                .setIcon( android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.game_over)
+                .setMessage(R.string.game_over_dialog)
+                .setCancelable( false )
+                .setPositiveButton(R.string.game_over_yes,
+                        (DialogInterface dialog, int whichButton) ->
+                                dialog.dismiss()
+                )
+                .setNegativeButton(R.string.game_over_no, (DialogInterface dialog, int whichButton) ->
+                        finish()   // встроенная функция для закрытия активности
+                )
+                .setNeutralButton(R.string.game_over_undo, (DialogInterface dialog, int whichButton) -> dialog.dismiss())
+                .show();
+    }
     /**
      * Появление нового числа на поле
      * @return Добавилось ли число (есть ли свободные клетки)
@@ -204,16 +267,17 @@ public class GameActivity extends AppCompatActivity {
                         )
                 );
             }
+            tvScore.setText( getString( R.string.game_tv_score, scoreNow ) );
         }
-        if(scoreNow < scoreMax)
-        {
-            tvScoreMax.setText( getString( R.string.game_tv_scoreMax, scoreMax ));
-            tvScoreNow.setText( getString( R.string.game_tv_score, scoreNow ) );
-        }
-        else {
-            tvScoreMax.setText( getString( R.string.game_tv_score, scoreNow ) );
-            tvScoreNow.setText( getString( R.string.game_tv_scoreMax, scoreMax ) );
-        }
+//        if(scoreNow < scoreMax)
+//        {
+//            tvScoreMax.setText( getString( R.string.game_tv_scoreMax, scoreMax ));
+//            tvScoreNow.setText( getString( R.string.game_tv_score, scoreNow ) );
+//        }
+//        else {
+//            tvScoreMax.setText( getString( R.string.game_tv_score, scoreNow ) );
+//            tvScoreNow.setText( getString( R.string.game_tv_scoreMax, scoreMax ) );
+//        }
     }
 
     private boolean moveRight() {
@@ -350,7 +414,52 @@ public class GameActivity extends AppCompatActivity {
         }
         return result;
     }
+    private boolean isGameFail() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (cells[i][j] == 0) {
+                    return false;
+                }
+            }
+        }
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N - 1; j++) {
+                if (cells[i][j] == cells[i][j + 1]) {
+                    return false;
+                }
+            }
+        }
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = 0; j < N; j++) {
+                if (cells[i][j] == cells[i + 1][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
 
+    }
+
+    private boolean move( MoveDirection direction ) {
+        switch (direction) {
+            case BOTTOM:
+                return moveBottom();
+            case LEFT:
+                return moveLeft();
+            case RIGHT:
+                return moveRight();
+            case TOP:
+                return moveTop();
+        }
+        return false;
+    }
+
+    private enum MoveDirection{
+        BOTTOM,
+        LEFT,
+        RIGHT,
+        TOP
+    }
 }
 
 /*

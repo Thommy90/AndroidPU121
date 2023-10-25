@@ -1,11 +1,36 @@
 <resources>
     <string name="app_name">AndroidPU121</string>
 
+    <!-- region Home -->>
     <string name="main_tv_title">Знакомство с андроид</string>
     <string name="main_btn_views">Элементы UI</string>
     <string name="main_btn_calc">Калькулятор</string>
     <string name="main_btn_2048">2048</string>
+    <string name="main_btn_rates">Курсы валют</string>
+    <string name="views_tv_title">Элементы UI (views)</string>
+    <string name="views_LinearLayout">LinearLayout:horizontal</string>
+    <string name="main_btn_chat">Чат</string>
+    <!-- endregion -->
 
+    <!-- region Rates -->
+    <string name="rates_ex_thread">Відкриття з\'єднання з UI (основного) потоку</string>
+    <string name="rates_btn_alpha">названию</string>
+    <string name="rates_btn_rate">курсу</string>
+    <string name="rates_btn_search">поиск</string>
+    <string name="rates_btn_title">Сортировка по: </string>
+    <string name="rates_dialog">%s/n1 %s = %f грн/nактуален на %s</string>
+    <!-- endregion -->
+
+    <!-- region Chat -->
+
+    <!-- endregion -->
+
+    <!-- region Game -->>
+    <string name="game_over">Нет хода</string>
+    <string name="game_over_dialog">Игра проиграна.\nНачать новую?</string>
+    <string name="game_over_yes">Да</string>
+    <string name="game_over_undo">Ход назад</string>
+    <string name="game_over_no">Нет</string>
     <string name="game_tv_title">2048</string>
     <string name="game_tv_hint">Поєднуйте числа щоб одержати 2048</string>
     <string name="game_btn_1">1</string>
@@ -26,12 +51,12 @@
     <string name="game_btn_16">16</string>
     <string name="game_toast_no_move">Немає руху</string>
     <string name="game_tv_score">Счет\n%d</string>
-    <string name="game_tv_scoreMax">СчетМакс\n%d</string>
+    <string name="game_tv_scoreMax">Рекорд\n%d</string>
     <string name="game_sound">Включить звук</string>
+    <!-- endregion -->>
 
-    <string name="views_tv_title">Элементы UI (views)</string>
-    <string name="views_LinearLayout">LinearLayout:horizontal</string>
 
+    <!-- region Calc -->
     <string name="calc_tv_title">Калькулятор</string>
     <string name="calc_tv_percent">%</string>
     <string name="calc_tv_ce">CE</string>
@@ -59,4 +84,5 @@
     <string name="calc_tv_plus_minus">\u207A\u2215\u208B</string>
     <string name="calc_div_zero_message">Cannot divide by zero</string>
     <string name="calc_sqrt_underZero_message">Number cannot be under 0</string>
+    <!-- endregion -->
 </resources>

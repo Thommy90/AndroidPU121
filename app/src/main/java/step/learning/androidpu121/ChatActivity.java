@@ -43,7 +43,7 @@ public class ChatActivity extends AppCompatActivity {
         new  Thread(this:: loadChatMessages).start();
     }
     @SuppressLint("SetTextI18n")
-    private View chatMessageView(ChatMessage chatMessage, int x)
+    private View chatMessageView(ChatMessage chatMessage, int str)
     {
         LinearLayout messageContainer=new LinearLayout(ChatActivity.this);
         messageContainer.setOrientation(LinearLayout.VERTICAL);
@@ -67,7 +67,7 @@ public class ChatActivity extends AppCompatActivity {
                 getApplicationContext(),
                 R.drawable.message_my
         );
-        if(x % 2 == 0) {
+        if(str % 2 == 0) {
             messageContainer.setBackground(messageOther);
         }
         else
@@ -99,11 +99,11 @@ public class ChatActivity extends AppCompatActivity {
 
     private void showChatMessages()
     {
-        int x=0;
+        int str = 0;
         for(ChatMessage chatMessage:chatMessages)
         {
-            chatContainer.addView(chatMessageView(chatMessage,x) );
-            x++;
+            chatContainer.addView(chatMessageView(chatMessage,str) );
+            str++;
         }
     }
     private void loadChatMessages() {

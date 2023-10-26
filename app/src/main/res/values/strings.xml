@@ -22,11 +22,21 @@
     <!-- endregion -->
 
     <!-- region Chat -->
-
+    <string name="chat_tv_nik">Нік у Чаті:</string>
+    <string name="chat_et_nik">Max</string>
     <!-- endregion -->
 
     <!-- region Game -->>
+    <string name="game_best">%d</string>
+    <string name="game_score">%d</string>
+    <string name="game_new_game">Новая игра</string>
+    <string name="game_new_game_dialog">Начать заново?</string>
+    <string name="game">Вы победили.</string>
+    <string name="game_dialog">Вы набрали 2048!!!\nПродолжим?</string>
+
     <string name="game_over">Нет хода</string>
+    <string name="btn_new_game">new</string>
+    <string name="btn_undo">back</string>
     <string name="game_over_dialog">Игра проиграна.\nНачать новую?</string>
     <string name="game_over_yes">Да</string>
     <string name="game_over_undo">Ход назад</string>

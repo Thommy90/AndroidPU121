@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-
+import android.widget.Toast;
 import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -13,6 +13,7 @@ import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,6 +33,8 @@ public class ChatActivity extends AppCompatActivity {
     private final String chatUrl = "https://chat.momentfor.fun/";
     private LinearLayout chatContainer;
     private final List<ChatMessage> chatMessages= new ArrayList<>();
+    private EditText etNik ;
+    private EditText etMessage ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,9 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         chatContainer = findViewById(R.id.chat_layout_container);
-
+        etNik = findViewById( R.id.chat_et_nik ) ;
+        etMessage = findViewById( R.id.edit_text ) ;
+        findViewById( R.id.btn_temp ).setOnClickListener( this::sendButtonClick ) ;
         new  Thread(this:: loadChatMessages).start();
     }
     @SuppressLint("SetTextI18n")
@@ -151,5 +156,28 @@ public class ChatActivity extends AppCompatActivity {
 
         }
         return  builder.toString();
+    }
+    private void sendButtonClick( View view ) {
+        String nik = etNik.getText().toString() ;
+        String message = etMessage.getText().toString() ;
+        if( nik.isEmpty() ) {
+            Toast.makeText( this, "Введіть нік у чаті", Toast.LENGTH_SHORT ).show();
+            etNik.requestFocus() ;
+            return ;
+        }
+        if( message.isEmpty() ) {
+            Toast.makeText( this, "Введіть повідомлення", Toast.LENGTH_SHORT ).show();
+            etMessage.requestFocus() ;
+            return ;
+        }
+        new Thread( () -> sendChatMessage( nik, message ) ) ;
+    }
+    private void sendChatMessage( String nik, String message ) {
+        try{
+            URL url = new URL (chatUrl);
+        }
+        catch (Exception e) {
+            Log.d("sendChatMessage", e.getMessage());
+        }
     }
 }

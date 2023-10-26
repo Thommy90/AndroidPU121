@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
@@ -34,11 +35,13 @@ public class GameActivity extends AppCompatActivity {
     private static final int N = 4;
     private final int[][] cells = new int[N][N];
     private final int[][] prevCells = new int[N][N]; // undo action
+    private final int[][] tmpCells = new int[N][N] ;
     private final TextView[][] tvCells = new TextView[N][N];
     private final Random random = new Random() ;
     private  boolean collapse;
-    private int score;
     private TextView tvScore;
+    private int tmpScore ;
+    private int tmpBestScore ;
 
     private Animation spawnCellAnimation;
     private Animation collapsCellsAnimation;
@@ -47,8 +50,11 @@ public class GameActivity extends AppCompatActivity {
     private int scoreNow=random.nextInt(2048);
     private int scoreMax= random.nextInt(2048);;
     private TextView tvScoreMax;
+    private int prevScoreMax ;
+    private int prevScore ;
     private TextView tvScoreNow;
     private static final String bestScoreFileName  = "Best_score";
+    private boolean flag = true;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -113,8 +119,20 @@ public class GameActivity extends AppCompatActivity {
                         processMove( MoveDirection.TOP );
                     }
                 } );
+        findViewById(R.id.game_btn_undo).setOnClickListener(this::undoMove);
+        findViewById(R.id.game_btn_new).setOnClickListener(this::newGame);
         loadBestScore();
         startNewGame();
+    }
+
+    private void undoMove(View view) {
+        for (int i = 0; i < N; i++) {
+            System.arraycopy(prevCells[i], 0, cells[i], 0, N);
+        }
+        scoreNow = prevScore;
+        scoreMax = prevScoreMax;
+        saveBestScore();
+        showField();
     }
 
     private void saveBestScore() {
@@ -134,6 +152,8 @@ public class GameActivity extends AppCompatActivity {
             Log.e("saveBestScore", Objects.requireNonNull(e.getMessage()));
         }
     }
+
+
 
     private void loadBestScore(){
         try ( FileInputStream inputStream = openFileInput( bestScoreFileName);
@@ -158,31 +178,85 @@ public class GameActivity extends AppCompatActivity {
         spawnCell();
         showField();
     }
-    private void processMove (MoveDirection direction){
-        if(move (direction))
-        {
+
+    private void newGame(View view) {
+        findViewById(R.id.game_btn_undo).setEnabled(false);
+        showNewGameDialog();
+    }
+
+    private void showNewGameDialog() {
+        new AlertDialog.Builder(this, androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
+                .setTitle(R.string.game_new_game)
+                .setMessage(R.string.game_new_game_dialog)
+                .setCancelable(false)
+                .setPositiveButton(R.string.game_over_yes,
+                        (DialogInterface dialog, int whichButton) ->
+                                startNewGame())
+                .setNegativeButton(R.string.game_over_no,
+                        (DialogInterface dialog, int whichButton) ->
+                                dialog.dismiss())
+                .show();
+    }
+    private void processMove(MoveDirection direction) {
+        for( int i = 0; i < N; i++ ) {
+            System.arraycopy( cells[ i ], 0, tmpCells[ i ], 0, N );
+        }
+        tmpScore = scoreNow;
+        tmpBestScore = scoreMax;
+        if (move(direction)) {
+            for( int i = 0; i < N; i++ ) {
+                System.arraycopy( tmpCells[ i ], 0, prevCells[ i ], 0, N );
+            }
+            findViewById(R.id.game_btn_undo).setEnabled(true);
+            prevScore = tmpScore;
+            prevScoreMax = tmpBestScore;
             spawnCell();
             showField();
-            if ( isGameFail())
-            {
-                showFailDialog();
+            if(flag && game()){
+                showGameDialog();
+                flag = false;
             }
-            else {
-                if (scoreNow > scoreMax ) {
-                    scoreMax = score;
+            if (isGameFail()) {
+                showFailDialog();
+            } else {
+                if (scoreNow > scoreMax) {
+                    scoreMax = scoreNow;
                     saveBestScore();
-                    tvScoreMax.setText(getString(R.string.game_tv_scoreMax, scoreMax));
+                    tvScoreMax.setText( getString( R.string.game_best, scoreMax ) ) ;
+                }
+            }
+        } else {
+            Toast.makeText(GameActivity.this,
+                    R.string.game_toast_no_move, Toast.LENGTH_SHORT).show();
+        }
+    }
+    private boolean game() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (cells[i][j] == 16) {
+                    return true;
                 }
             }
         }
-        else {
-            Toast.makeText(GameActivity.this, getString( R.string.game_toast_no_move ), Toast.LENGTH_SHORT).show();
-        }
+        return false;
+    }
+
+    private void showGameDialog() {
+        new AlertDialog.Builder(this, androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
+                .setTitle(R.string.game)
+                .setMessage(R.string.game_dialog)
+                .setCancelable(false)
+                .setPositiveButton(R.string.game_over_yes,
+                        (DialogInterface dialog, int whichButton) ->
+                                dialog.dismiss())
+                .setNegativeButton(R.string.game_over_no,
+                        (DialogInterface dialog, int whichButton) ->
+                                finish())
+                .show();
     }
 
     private void showFailDialog() {
         new AlertDialog.Builder(this, androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
-                .setIcon( android.R.drawable.ic_dialog_alert)
                 .setTitle(R.string.game_over)
                 .setMessage(R.string.game_over_dialog)
                 .setCancelable( false )
@@ -236,10 +310,7 @@ public class GameActivity extends AppCompatActivity {
      * Показание поля - отображение числовых данных на View и
      * подбор стилей в соответствии со значением числа
      */
-    private void showField(){
-        // особенность - некоторые параметры "на лету" можно изменять
-        // через стили , но не все, для некоторых приходится подавать
-        // отдельные инструкции
+    private void showField() {
         Resources resources = getResources();
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -267,8 +338,10 @@ public class GameActivity extends AppCompatActivity {
                         )
                 );
             }
-            tvScore.setText( getString( R.string.game_tv_score, scoreNow ) );
         }
+        tvScoreNow.setText(getString(R.string.game_score, scoreNow));
+        tvScoreMax.setText( getString( R.string.game_best, scoreMax ) ) ;
+    }
 //        if(scoreNow < scoreMax)
 //        {
 //            tvScoreMax.setText( getString( R.string.game_tv_scoreMax, scoreMax ));
@@ -277,8 +350,8 @@ public class GameActivity extends AppCompatActivity {
 //        else {
 //            tvScoreMax.setText( getString( R.string.game_tv_score, scoreNow ) );
 //            tvScoreNow.setText( getString( R.string.game_tv_scoreMax, scoreMax ) );
-//        }
-    }
+//
+//   }
 
     private boolean moveRight() {
         boolean result = false;

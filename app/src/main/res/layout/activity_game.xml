@@ -10,15 +10,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="99dp"
         android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="20dp"
         android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginStart="7dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -40,49 +41,60 @@
                 android:text="@string/game_sound"
                 android:textSize="10sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginStart="7dp"
+            android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/score_now"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="4"
                 android:background="@color/game_score_background"
-                android:textColor="@color/game_score_foreground"
                 android:gravity="center"
-                tools:text="SCORE\n520"/>
+                android:textColor="@color/game_score_foreground"
+                tools:text="SCORE\n520" />
+
             <Button
+                android:id="@+id/game_btn_new"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:text="Нова"
-                app:backgroundTint="@null"/>
+                android:background="@drawable/game_btn"
+                android:text="@string/btn_new_game"
+                app:backgroundTint="@null" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginStart="7dp"
+            android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/score_max"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="4"
                 android:background="@color/game_score_background"
-                android:textColor="@color/game_score_foreground"
                 android:gravity="center"
-                tools:text="SCORE\n520"/>
+                android:textColor="@color/game_score_foreground"
+                tools:text="SCORE\n520" />
+
             <Button
+                android:id="@+id/game_btn_undo"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:text="Нова"
-                app:backgroundTint="@null"/>
+                android:background="@drawable/game_btn"
+                android:enabled="false"
+                android:text="@string/btn_undo"
+                app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
 

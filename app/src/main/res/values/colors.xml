@@ -43,6 +43,7 @@
     <color name="game_over_undo_background">#08601B</color>
 
 
+
     <color name="rate_btn_default">#2A2B2E</color>
     <color name="rate_btn_fr_default">#FFFFFF</color>
 
@@ -51,4 +52,6 @@
 
     <color name="chat_card_message_name">#073108</color>
     <color name="chat_card_message_date">#05379A</color>
+    <color name="chat_my_bg">#97EDE0</color>
+    <color name="chat_other_bg">#EDE497</color>
 </resources>

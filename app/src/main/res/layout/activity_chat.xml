@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
@@ -32,7 +33,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/chat_tv_nik"/>
@@ -43,9 +44,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:text="@string/chat_et_nik"
+            android:background="@null"
             android:textColorHint="@color/calc_expression_text"
-            android:textSize="16sp" />
-
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+        <ImageButton
+            android:id="@+id/chat_btn_save_nik"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_save"/>
+        <TextView
+            android:id="@+id/chat_mes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:foreground="@android:drawable/ic_dialog_email"
+            android:foregroundGravity="center" />
 
     </LinearLayout>
 
@@ -79,7 +94,7 @@
         app:layout_constraintTop_toBottomOf="@+id/chat_sv_container">
 
         <EditText
-            android:id="@+id/edit_text"
+            android:id="@+id/chat_et_message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
@@ -89,7 +104,7 @@
             android:textSize="16sp" />
 
         <ImageButton
-            android:id="@+id/btn_temp"
+            android:id="@+id/chat_btn_send"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
